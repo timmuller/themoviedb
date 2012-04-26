@@ -119,7 +119,7 @@ class Movie(Core):
     # Sizes = s->w300 m->w780 l->w1280 o->original(default)
     def get_backdrop(self,img_size="o",movie_index=0):
         img_path = self.movies["results"][movie_index]["backdrop_path"]
-        return config['api']['base.url']+self.backdrop_size(img_size)+img_path
+        return config['api']['base.url']+self.backdrop_sizes(img_size)+img_path
 
     def get_original_title(self,movie_index=0):
         return self.movies["results"][movie_index]["original_title"]
