@@ -173,10 +173,11 @@ class Movie(Core):
         return self.movies_full['budget']
 
     def get_genres(self,movie_id=0):
+        genres = []
         if movie_id > 0:
             self.full_info(movie_id)
         for i in self.movies_full['genres']:
-            genres = {"id":i["id"],"name":i["name"]}
+            genres.append({"id":i["id"],"name":i["name"]})
         return genres
 
     def get_homepage(self,movie_id=0):
