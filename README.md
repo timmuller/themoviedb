@@ -46,9 +46,9 @@ or..
 
     movie.is_adult(movie_id)
     
-If movie search hangs, use `limit=True` parameter:
+- If movie search hangs, use `limit=True` parameter:
     movie = tmdb.Movie("matrix",limit=True)
-Now movie search only return first page as result.
+- Now movie search only return first page as result.
 
 This methods usable without movie_id:
 
