@@ -1,3 +1,5 @@
+Hi, I started to write tmdb from scratch. Its easier version and full support for v3
+
 themoviedb.org wrapper for api v3
 ---
 
