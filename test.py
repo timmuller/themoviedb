@@ -4,7 +4,7 @@ import tmdb
 class TmdbCoreTest(unittest.TestCase):
 
     def setUp(self):
-        tmdb.configure("3e7807c4a01f18298f64662b257d7059")
+        tmdb.configure("API_KEY")
         self.core = tmdb.Core()
 
     def test_getJSON(self):
@@ -31,7 +31,7 @@ class TmdbCoreTest(unittest.TestCase):
 class TmdbMoviesTest(unittest.TestCase):
 
     def setUp(self):
-        tmdb.configure("3e7807c4a01f18298f64662b257d7059")
+        tmdb.configure("API_KEY")
         self.movies = tmdb.Movies("The Avengers")
 
     def test_iter(self):
