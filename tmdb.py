@@ -97,16 +97,24 @@ class Movies(Core):
         self.update_configuration()
         title = self.escape(title)
         self.movies = self.getJSON(config['urls']['movie.search'] % (title,str(1)))
-        self.movies_full = ""
         pages = self.movies["total_pages"]
         if not self.limit:
-            for i in range(int(pages)):
-                self.movies["results"].extend(self.getJSON(config['urls']['movie.search'] % (title,str(i)))["results"])
+            if int(pages) > 1:                  #
+                for i in range(2,int(pages)+1): #  Thanks @tBuLi
+                    self.movies["results"].extend(self.getJSON(config['urls']['movie.search'] % (title,str(i)))["results"])
 
     def get_total_results(self):
         if self.limit:
             return len(self.movies["results"])
         return self.movies["total_results"]
+
+    def iter_movies(self):
+        for i in self.movies["results"]:
+            yield Movie(i["id"])
+
+    def iter_results(self):
+        for i in self.movies["results"]:
+            yield i
 
     def get_id(self,movie_index=0):
         return self.movies["results"][movie_index]["id"]
