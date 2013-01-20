@@ -214,6 +214,9 @@ class Movie(Core):
         img_path = self.movies["poster_path"]
         return config['api']['base.url']+self.poster_sizes(img_size)+img_path
 
+    def get_trailers(self):
+        return self.getJSON(config['urls']['movie.trailers'] % self.movie_id)
+
     def add_rating(self,value):
         if isinstance(value,float) or isinstance(value,int):
             if config["api"]["session.id"] == "":
@@ -332,7 +335,7 @@ class Cast:
     def get_release_date(self):
         return self.cast["release_date"]
 
-    # Sizes = s->w92 m->w185 l->w500 o->original(default)   
+    # Sizes = s->w92 m->w185 l->w500 o->original(default)
     def get_poster(self,img_size="o",person_index=0):
         img_path = self.cast["poster_path"]
         return config['api']['base.url']+Core().poster_sizes(img_size)+img_path
@@ -359,7 +362,7 @@ class Crew:
     def get_release_date(self):
         return self.crew["release_date"]
 
-    # Sizes = s->w92 m->w185 l->w500 o->original(default)   
+    # Sizes = s->w92 m->w185 l->w500 o->original(default)
     def get_poster(self,img_size="o"):
         img_path = self.crew["poster_path"]
         return config['api']['base.url']+Core().poster_sizes(img_size)+img_path
