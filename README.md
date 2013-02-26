@@ -1,89 +1,65 @@
-Hi, I started to write tmdb from scratch. Its easier version and full support for v3
+Hi, I started to write tmdb from scratch. It's easier that way, and it supports
+API v3.
 
 themoviedb.org wrapper for api v3
----
+---------------------------------
 
-- Old wrapper renamed to themoviedb_oldapi : https://github.com/doganaydin/themoviedb_oldapi
-- Temporarily, only movie search api is implemented -
+- Old wrapper renamed to themoviedb_oldapi:
+  https://github.com/doganaydin/themoviedb_oldapi
+- Temporarily, only movie search api is implemented.
 - Please edit wiki page to add yourself to WhoUses page.
 
-Installation:
----
+Installation
+------------
 
-    pip install requests
-    (for py2x) sudo python setup.py install
-    (for py3x) sudo python3 setup.py install
+```bash
+$ pip install requests
+$ sudo python setup.py install
+# Alternatively, for Python 3:
+$ sudo python3 setup.py install
+```
 
-User Authentication:
----
+Usage
+-----
 
-    import tmdb
-    tmdb.configure(yourapikey)
-    auth = tmdb.Core()
-    rt = auth.request_token()
-    #{"url":"http://themoviedb.org/authenticate/request_token","request_token":"requested_token"}
-    auth.session_id(rt["request_token"])
-    #return session_id
+First, you need to get an API key from [TMDB](http://www.themoviedb.org/)
+(you'll need a user account for that). Then, assuming that `api_key` is a
+string containing your API key:
 
+```python
+import tmdb
+tmdb.configure(api_key)
+# Search for movie titles containing "Alien"
+movies = tmdb.Movies("Alien")
+for movie in movies.iter_results():
+    # Pick the movie whose title is exactly "Alien"
+    if movie["title"] == "Alien":
+        # Create a Movie object, fetching details about it
+        movie = tmdb.Movie(movie["id"])
+        break
+# Access the fetched information about the movie
+movie.get_tagline() # or other methods...
+```
 
-Usage:
----
+For a complete list of methods currently available in `Movie` objects, type
+`help(tmdb.Movie)` on the Python prompt.
 
-    import tmdb
-    tmdb.configure(yourapikey)
-    movie = tmdb.Movie("Alien")
-    movie.get_id() # or other methods..
-    movie.full_info(movie_id)
-    auth = tmdb.Core()
-    rt = auth.request_token()
-    auth.session_id(rt["request_token"])
-    movie.add_rating(1)
+If movie search hangs for too long, use `limit=True`:
+`movies = tmdb.Movies("matrix", limit=True)`. Now movie search only returns the
+first page of results.
 
-For more detailed data..
+User Authentication
+-------------------
 
-    movie.full_info(movie_id)
-    movie.is_adult() #true false
+In order to modify a movie on [TMDB](http://www.themoviedb.org/), you'll need
+to authenticate first:
 
-or..
-
-    movie.is_adult(movie_id)
-    
-If movie search hangs, use `limit=True` parameter:
-    `movie = tmdb.Movie("matrix",limit=True)`
-Now movie search only return first page as result.
-
-This methods usable without movie_id:
-
-+ get_total_results(self)
-+ get_id(self,movie_index=0)
-+ get_backdrop(self,img_size="o",movie_index=0)
-+ get_original_title(self,movie_index=0)
-+ get_popularity(self,movie_index=0)
-+ get_release_date(self,movie_index=0)
-+ get_title(self,movie_index=0)
-+ get_poster(self,img_size="o",movie_index=0)
-
-With movie_id:
-
-+ is_adult(self,movie_id=0)
-+ get_collection_id(self,movie_id=0)
-+ get_collection_name(self,movie_id=0)
-+ get_collection_backdrop(self,img_size="o",movie_id=0)
-+ get_collection_poster(self,img_size="o",movie_id=0)
-+ get_budget(self,movie_id=0)
-+ get_genres(self,movie_id=0)
-+ get_homepage(self,movie_id=0)
-+ get_imdb_id(self,movie_id=0)
-+ get_overview(self,movie_id=0)
-+ get_production_companies(self,movie_id=0)
-+ get_productions_countries(self,movie_id=0)
-+ get_revenue(self,movie_id=0)
-+ get_runtime(self,movie_id=0)
-+ get_spoken_languages(self,movie_id=0)
-+ get_tagline(self,movie_id=0)
-+ get_vote_average(self,movie_id=0)
-+ get_vote_count(self,movie_id=0)
-
-
-
-(Api v3 is very silly.tmdb.py is a little bit complicated now because of f***ed api developers.)
+```python
+import tmdb
+tmdb.configure(api_key)
+auth = tmdb.Core()
+rt = auth.request_token()
+auth.session_id(rt["request_token"])
+# Now you can for instance rate the movie
+movie.add_rating(1)
+```
