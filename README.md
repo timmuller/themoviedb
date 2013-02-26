@@ -42,11 +42,11 @@ movie.get_tagline() # or other methods...
 ```
 
 For a complete list of methods currently available in `Movie` objects, type
-`help(tmdb.Movie` on the python prompt.
+`help(tmdb.Movie)` on the Python prompt.
 
-If movie search hangs, use `limit=True`:
+If movie search hangs for too long, use `limit=True`:
 `movies = tmdb.Movies("matrix", limit=True)`. Now movie search only returns the
-first page of result.
+first page of results.
 
 User Authentication
 -------------------
