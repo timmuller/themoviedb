@@ -47,8 +47,8 @@ def configure(api_key):
 
 
 class Core(object):
-    def getJSON(self,url):
-        page = requests.get(url).content
+    def getJSON(self, url, params=None):
+        page = requests.get(url, params=params).content
         try:
             return simplejson.loads(page)
         except:
