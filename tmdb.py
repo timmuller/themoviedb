@@ -18,8 +18,9 @@ import requests
 
 config = {}
 
-def configure(api_key):
+def configure(api_key, language='en'):
     config['apikey'] = api_key
+    config['language'] = language
     config['urls'] = {}
     config['urls']['movie.search'] = "https://api.themoviedb.org/3/search/movie?query=%%s&api_key=%(apikey)s&page=%%s" % (config)
     config['urls']['movie.info'] = "https://api.themoviedb.org/3/movie/%%s?api_key=%(apikey)s" % (config)
@@ -47,8 +48,9 @@ def configure(api_key):
 
 
 class Core(object):
-    def getJSON(self, url, params=None):
-        page = requests.get(url, params=params).content
+    def getJSON(self, url, language=None):
+        language = language or config['language']
+        page = requests.get(url, params={'language': language}).content
         try:
             return simplejson.loads(page)
         except:
