@@ -1,4 +1,5 @@
 import distutils.core
+import setuptools
 
 distutils.core.setup(
     name="tmdb",

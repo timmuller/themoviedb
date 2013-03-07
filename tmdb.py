@@ -18,8 +18,9 @@ import requests
 
 config = {}
 
-def configure(api_key):
+def configure(api_key, language='en'):
     config['apikey'] = api_key
+    config['language'] = language
     config['urls'] = {}
     config['urls']['movie.search'] = "https://api.themoviedb.org/3/search/movie?query=%%s&api_key=%(apikey)s&page=%%s" % (config)
     config['urls']['movie.info'] = "https://api.themoviedb.org/3/movie/%%s?api_key=%(apikey)s" % (config)
@@ -47,8 +48,9 @@ def configure(api_key):
 
 
 class Core(object):
-    def getJSON(self,url):
-        page = requests.get(url).content
+    def getJSON(self, url, language=None):
+        language = language or config['language']
+        page = requests.get(url, params={'language': language}).content
         try:
             return simplejson.loads(page)
         except:
@@ -90,16 +92,16 @@ class Core(object):
         return sess["session_id"]
 
 class Movies(Core):
-    def __init__(self, title="", limit=False):
+    def __init__(self, title="", limit=False, language=None):
         self.limit = limit
         self.update_configuration()
         title = self.escape(title)
-        self.movies = self.getJSON(config['urls']['movie.search'] % (title,str(1)))
+        self.movies = self.getJSON(config['urls']['movie.search'] % (title,str(1)), language=language)
         pages = self.movies["total_pages"]
         if not self.limit:
             if int(pages) > 1:                  #
                 for i in range(2,int(pages)+1): #  Thanks @tBuLi
-                    self.movies["results"].extend(self.getJSON(config['urls']['movie.search'] % (title,str(i)))["results"])
+                    self.movies["results"].extend(self.getJSON(config['urls']['movie.search'] % (title,str(i)), language=language)["results"])
 
     def __iter__(self):
         for i in self.movies["results"]:
@@ -115,10 +117,10 @@ class Movies(Core):
             yield i
 
 class Movie(Core):
-    def __init__(self,movie_id):
+    def __init__(self, movie_id, language=None):
         self.movie_id = movie_id
         self.update_configuration()
-        self.movies = self.getJSON(config['urls']['movie.info'] % self.movie_id)
+        self.movies = self.getJSON(config['urls']['movie.info'] % self.movie_id, language=language)
 
     def is_adult(self):
         return self.movies['adult']
@@ -214,8 +216,8 @@ class Movie(Core):
         img_path = self.movies["poster_path"]
         return config['api']['base.url']+self.poster_sizes(img_size)+img_path
 
-    def get_trailers(self):
-        return self.getJSON(config['urls']['movie.trailers'] % self.movie_id)
+    def get_trailers(self, language=None):
+        return self.getJSON(config['urls']['movie.trailers'] % self.movie_id, language=language)
 
     def add_rating(self,value):
         if isinstance(value,float) or isinstance(value,int):
@@ -232,14 +234,14 @@ class Movie(Core):
         return "ERROR"
 
 class People(Core):
-    def __init__(self, people_name):
+    def __init__(self, people_name, language=None):
         self.update_configuration()
         people_name = self.escape(people_name)
-        self.people = self.getJSON(config['urls']['people.search'] % (people_name,str(1)))
+        self.people = self.getJSON(config['urls']['people.search'] % (people_name,str(1)), language=language)
         pages = self.people["total_pages"]
         if int(pages) > 1:
             for i in range(2,int(pages)+1):
-                self.people["results"].extend(self.getJSON(config['urls']['people.search'] % (people_name,str(i)))["results"])
+                self.people["results"].extend(self.getJSON(config['urls']['people.search'] % (people_name,str(i)), language=language)["results"])
 
     def __iter__(self):
         for i in self.people["results"]:
@@ -253,10 +255,10 @@ class People(Core):
             yield i
 
 class Person(Core):
-    def __init__(self, person_id):
+    def __init__(self, person_id, language=None):
         self.person_id = person_id
         self.update_configuration()
-        self.person = self.getJSON(config['urls']['person.info'] % self.person_id)
+        self.person = self.getJSON(config['urls']['person.info'] % self.person_id, language=language)
 
     def get_id(self):
         return self.person_id
