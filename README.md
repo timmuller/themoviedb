@@ -65,8 +65,10 @@ movie.add_rating(1)
 ```
 Contributors
 =============
-   George Dorn    [@georgedorn](/georgedorn)
+   George Dorn    [@georgedorn](https://github.com/georgedorn)
    
-   Farrin Reid    @blakmatrix
-   Benoît Knecht  @BenoitKnecht
-   Alan Justino da Silva    @alanjds
+   Farrin Reid    [@blakmatrix](https://github.com/blakmatrix)
+   
+   Benoît Knecht  [@BenoitKnecht](https://github.com/BenoitKnecht)
+   
+   Alan Justino da Silva    [@alanjds](https://github.com/alanjds)
