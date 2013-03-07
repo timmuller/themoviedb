@@ -63,3 +63,9 @@ auth.session_id(rt["request_token"])
 # Now you can for instance rate the movie
 movie.add_rating(1)
 ```
+Contributors
+=============
+   George Dorn    @georgedorn
+   Farrin Reid    @blakmatrix
+   Benoît Knecht  @BenoitKnecht
+   Alan Justino da Silva    @alanjds
