@@ -234,14 +234,16 @@ class Movie(Core):
         return "ERROR"
 
 class People(Core):
-    def __init__(self, people_name, language=None):
+    def __init__(self, people_name, limit=False, language=None):
+        self.limit = limit
         self.update_configuration()
         people_name = self.escape(people_name)
         self.people = self.getJSON(config['urls']['people.search'] % (people_name,str(1)), language=language)
         pages = self.people["total_pages"]
-        if int(pages) > 1:
-            for i in range(2,int(pages)+1):
-                self.people["results"].extend(self.getJSON(config['urls']['people.search'] % (people_name,str(i)), language=language)["results"])
+        if not self.limit:
+            if int(pages) > 1:
+                for i in range(2,int(pages)+1):
+                    self.people["results"].extend(self.getJSON(config['urls']['people.search'] % (people_name,str(i)), language=language)["results"])
 
     def __iter__(self):
         for i in self.people["results"]:
@@ -249,6 +251,11 @@ class People(Core):
 
     def total_results(self):
         return self.people["total_results"]
+
+    def get_total_results(self):
+        if self.limit:
+            return len(self.movies["results"])
+        return self.movies["total_results"]
 
     def iter_results(self):
         for i in self.people["results"]:
