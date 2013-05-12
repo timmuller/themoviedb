@@ -74,7 +74,7 @@ class Core(object):
         return size_list[img_size]
 
     def poster_sizes(self,img_size):
-        size_list = {'s':'w92','m':'185','l':'w500','o':'original'}
+        size_list = {'s':'w92','m':'w185','l':'w500','o':'original'}
         return size_list[img_size]
 
     def profile_sizes(self,img_size):
