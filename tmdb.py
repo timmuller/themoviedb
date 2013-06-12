@@ -134,11 +134,15 @@ class Movie(Core):
     # Sizes = s->w300 m->w780 l->w1280 o->original(default)
     def get_collection_backdrop(self,img_size="o"):
         img_path = self.movies["belongs_to_collection"]["backdrop_path"]
+        if not img_path:
+            return
         return config['api']['base.url']+self.poster_sizes(img_size)+img_path
 
     # Sizes = s->w92 m->w185 l->w500 o->original(default)
     def get_collection_poster(self,img_size="o"):
         img_path = self.movies["belongs_to_collection"]["poster_path"]
+        if not img_path:
+            return
         return config['api']['base.url']+self.poster_sizes(img_size)+img_path
 
     def get_budget(self):
@@ -197,6 +201,8 @@ class Movie(Core):
     # Sizes = s->w300 m->w780 l->w1280 o->original(default)
     def get_backdrop(self,img_size="o"):
         img_path = self.movies["backdrop_path"]
+        if not img_path:
+            return
         return config['api']['base.url']+self.backdrop_sizes(img_size)+img_path
 
     def get_original_title(self):
@@ -214,6 +220,8 @@ class Movie(Core):
     # Sizes = s->w92 m->w185 l->w500 o->original(default)
     def get_poster(self,img_size="o"):
         img_path = self.movies["poster_path"]
+        if not img_path:
+            return
         return config['api']['base.url']+self.poster_sizes(img_size)+img_path
 
     def get_trailers(self, language=None):
@@ -279,6 +287,8 @@ class Person(Core):
     # Sizes = s->w45 m->w185 l->w632 o->original(default)
     def get_profile_image(self,img_size="o"):
         img_path = self.person["profile_path"]
+        if not img_path:
+            return
         return config['api']['base.url']+self.profile_sizes(img_size)+img_path
 
     def get_biography(self):
@@ -314,6 +324,8 @@ class Person(Core):
     #Sizes = s->w92 m->w185 l->w500 o->original(default)
     def get_image(self,img_size="o",image_index=0):
         img_path = self.person["images"]['profiles'][image_index]['file_path']
+        if not img_path:
+            return
         return config['api']['base.url']+self.poster_sizes(img_size)+img_path
 
     def cast(self):
@@ -347,6 +359,8 @@ class Cast:
     # Sizes = s->w92 m->w185 l->w500 o->original(default)
     def get_poster(self,img_size="o",person_index=0):
         img_path = self.cast["poster_path"]
+        if not img_path:
+            return
         return config['api']['base.url']+Core().poster_sizes(img_size)+img_path
 
 class Crew:
@@ -374,4 +388,6 @@ class Crew:
     # Sizes = s->w92 m->w185 l->w500 o->original(default)
     def get_poster(self,img_size="o"):
         img_path = self.crew["poster_path"]
+        if not img_path:
+            return
         return config['api']['base.url']+Core().poster_sizes(img_size)+img_path
