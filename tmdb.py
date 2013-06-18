@@ -119,6 +119,12 @@ class Movies(Core):
             yield i
 
     def get_ordered_matches(self):
+        """
+        Return a list of tuples.  Each tuples first element is a percentage similarity
+        between the search term and the tuples second element 'title' value.
+
+        Ordered, descending, by the percentage similarity.
+        """
         our_results = []
         for movie in self.iter_results():
             ratio = fuzzywuzzy.fuzz.ratio(self.searched, movie['title'])
@@ -126,6 +132,12 @@ class Movies(Core):
         return sorted(our_results, reverse=True)
 
     def get_best_match(self):
+        """
+        Returns a tuple whose first element is the percent similarity between the search
+        term and the tuple's second element's 'title' value.
+
+        The result is the best-matching result from all the results we get from TMDb.
+        """
         try:
             return self.get_ordered_matches()[0]
         except IndexError:
