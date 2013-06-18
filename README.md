@@ -74,3 +74,5 @@ Contributors
    Benoît Knecht  [@BenoitKnecht](https://github.com/BenoitKnecht)
    
    Alan Justino da Silva    [@alanjds](https://github.com/alanjds)
+  
+   Dustin Wyatt    [@therms](https://github.com/therms)
