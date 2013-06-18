@@ -14,6 +14,7 @@ try:
 except:
     import json as simplejson
 
+import fuzzywuzzy.fuzz
 import requests
 
 config = {}
@@ -95,6 +96,7 @@ class Movies(Core):
     def __init__(self, title="", limit=False, language=None):
         self.limit = limit
         self.update_configuration()
+        self.searched = title
         title = self.escape(title)
         self.movies = self.getJSON(config['urls']['movie.search'] % (title,str(1)), language=language)
         pages = self.movies["total_pages"]
@@ -115,6 +117,31 @@ class Movies(Core):
     def iter_results(self):
         for i in self.movies["results"]:
             yield i
+
+    def get_ordered_matches(self):
+        """
+        Return a list of tuples.  Each tuples first element is a percentage similarity
+        between the search term and the tuples second element 'title' value.
+
+        Ordered, descending, by the percentage similarity.
+        """
+        our_results = []
+        for movie in self.iter_results():
+            ratio = fuzzywuzzy.fuzz.ratio(self.searched, movie['title'])
+            our_results.append((ratio, movie))
+        return sorted(our_results, reverse=True)
+
+    def get_best_match(self):
+        """
+        Returns a tuple whose first element is the percent similarity between the search
+        term and the tuple's second element's 'title' value.
+
+        The result is the best-matching result from all the results we get from TMDb.
+        """
+        try:
+            return self.get_ordered_matches()[0]
+        except IndexError:
+            return
 
 class Movie(Core):
     def __init__(self, movie_id, language=None):
