@@ -193,8 +193,9 @@ class Movie(Core):
         return self.movies['overview']
 
     def get_production_companies(self):
+        companies = []
         for i in self.movies['production_companies']:
-            companies = {"id":i["id"],"name":i["name"]}
+            companies.append({"id":i["id"],"name":i["name"]})
         return companies
 
     def get_productions_countries(self):
