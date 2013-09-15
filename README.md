@@ -65,6 +65,8 @@ movie.add_rating(1)
 ```
 Contributors
 =============
+   Martin Lenders [@authmillenon](https://github.com/authmillenon)
+
    lad1337 [@lad1337](https://github.com/lad1337)
 
    George Dorn    [@georgedorn](https://github.com/georgedorn)
