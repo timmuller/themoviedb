@@ -65,6 +65,8 @@ movie.add_rating(1)
 ```
 Contributors
 =============
+   Thomas [@tloiret](https://github.com/authmillenon)
+
    Martin Lenders [@authmillenon](https://github.com/authmillenon)
 
    lad1337 [@lad1337](https://github.com/lad1337)
