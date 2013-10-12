@@ -13,8 +13,8 @@ Installation
 ------------
 
 ```bash
-$ pip install requests fuzzywuzzy
 $ sudo python setup.py install
+$ pip install -r requirements.txt
 # Alternatively, for Python 3:
 $ sudo python3 setup.py install
 ```
